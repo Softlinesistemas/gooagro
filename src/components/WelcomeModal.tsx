@@ -25,7 +25,7 @@ const WelcomeModal = () => {
       <div className="flex items-center justify-center min-h-screen bg-black/50 px-4 py-10">
         <DialogPanel
           onClick={handleRedirect} // Redirecionar quando clicar no painel do modal
-          className="bg-red-600 text-white rounded-xl p-6 w-full max-w-2xl min-h-[300px] relative cursor-pointer shadow-2xl"
+          className="bg-blue-300 text-black font-extrabold rounded-xl p-6 w-full max-w-2xl min-h-[300px] relative cursor-pointer shadow-2xl"
         >
           <button
             onClick={(e) => {
@@ -34,14 +34,14 @@ const WelcomeModal = () => {
             }}
             className="absolute top-4 right-4 text-white hover:text-gray-300 transition"
           >
-            <FaTimes className="w-5 h-5" />
+            <FaTimes className="w-20 h-20" />
           </button>
 
-          <div className="flex flex-col justify-center items-center text-center text-md font-semibold gap-1 px-4 pt-6">
+          <div className="flex flex-col justify-center items-center text-center text-2xl font-extrabold gap-1 px-4 pt-6">
             <p>Prezada(o)</p>
             <p>Agricultora(o) Familiar</p>
-            <p className="text-yellow-300 uppercase">REGISTRE OS PREÇOS </p>
-            <p className="text-yellow-300 uppercase">DOS SEUS PRODUTOS.</p>
+            <p className="text-red-600 uppercase">REGISTRE OS PREÇOS </p>
+            <p className="text-red-600 uppercase">DOS SEUS PRODUTOS.</p>
             <p>É fácil e ajuda a</p>
             <p>Agricultura Familiar a</p>
             <p>Crescer ainda mais.</p>
