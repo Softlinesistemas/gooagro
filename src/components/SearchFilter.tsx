@@ -58,7 +58,9 @@ export const SearchFilter: React.FC = () => {
   return (
     <div className="w-full mt-2 m-1 mb-2 ml-1 rounded-xl  ">
       {/* Campo de busca */}
-      <p>Pesquise pelo Nome ou Usuário <span className="font-green-700">GooAgro</span></p>
+      <div className='mb-2 text-sm font-medium text-black justify-center flex'>
+      <p>Pesquise pelo Nome ou Usuário <span className="!text-green-700">GooAgro</span></p>
+      </div>
       <div className="flex items-center bg-white rounded-lg shadow-sm px-4 py-3 border-2 border-green-700">
         <FiSearch className="text-black shadow-md mr-2" />
         <input
