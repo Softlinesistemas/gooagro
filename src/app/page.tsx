@@ -56,8 +56,9 @@ export default function HomePage() {
 
   return (
     <ActionContext.Provider value={{ setActiveAction }}>
-      <div className='px-1'>
+      
         <MainBanner />
+        <div className='px-1'>
         <UserSelect onActionSelect={setActiveAction} />
         {renderActionComponent()}
       </div>

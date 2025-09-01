@@ -15,7 +15,7 @@ const MessageFilter: React.FC<Props> = ({ activeFilter, onFilterChange }) => {
     <div className="flex justify-around mt-3 sticky top-0 z-10">
       <Button
         className={`px-4 py-1 rounded-full text-md font-semibold ${
-          activeFilter === 'favoritos' ? 'hover:bg-orange-500 text-white' : 'bg-gray-200 text-gray-800'
+          activeFilter === 'favoritos' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
         }`}
         onClick={() => onFilterChange('favoritos')}
       >
@@ -23,7 +23,7 @@ const MessageFilter: React.FC<Props> = ({ activeFilter, onFilterChange }) => {
       </Button>
       <Button
         className={`px-4 py-1 rounded-full text-md font-semibold ${
-          activeFilter === 'todos' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-800'
+          activeFilter === 'todos' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
         }`}
         onClick={() => onFilterChange('todos')}
       >
@@ -33,7 +33,8 @@ const MessageFilter: React.FC<Props> = ({ activeFilter, onFilterChange }) => {
 
       <Button
         className={`px-4 py-1 rounded-full text-md font-semibold ${
-          activeFilter === 'nao_lidas' ? 'bg-gray-600 text-white' : 'bg-gray-200 text-gray-800'
+          
+           activeFilter === 'nao_lidas' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
         }`}
         onClick={() => onFilterChange('nao_lidas')}
       >

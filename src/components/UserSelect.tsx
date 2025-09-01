@@ -8,97 +8,70 @@ import QrCode from './QrCode';
 import { Button } from '@/utils/ui/Button';
 
 export const UserSelect: React.FC<{ onActionSelect?: (action: string) => void }> = ({ onActionSelect }) => {
-  const router = useRouter(); // Hook para redirecionar
+  const router = useRouter();
 
-  // Estados
+  const users = [
+    { name: 'Sítio Canaã - Alimentos Orgânicos', avatar: '/avatar3.jpeg', type: 'fornecedor' },
+    { name: 'Maria da Silva', avatar: '/avatar2.jpeg', type: 'pessoal' },
+    { name: 'Grupo Raízes Sustentáveis', avatar: '/avatar1.jpeg', type: 'grupo' },
+    { name: 'AgroTech Ltda.', avatar: '/avatar4.jpeg', type: 'empresa' },
+  ];
+
+  const [selectedUser, setSelectedUser] = useState(users[1]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showQrCode, setShowQrCode] = useState(false);
 
-  // Lista de usuários com tipo de perfil
-  const users = [
-    {
-      name: 'Sítio Canaã - Alimentos Orgânicos',
-      avatar: '/avatar3.jpeg',
-      type: 'fornecedor',
-    },
-    {
-      name: 'Maria da Silva',
-      avatar: '/avatar2.jpeg',
-      type: 'pessoal',
-    },
-    {
-      name: 'Grupo Raízes Sustentáveis',
-      avatar: '/avatar1.jpeg',
-      type: 'grupo',
-    },
-    {
-      name: 'AgroTech Ltda.',
-      avatar: '/avatar4.jpeg',
-      type: 'empresa',
-    },
-  ];
+  // Estado para ícone/ação/avatar ativo
+  const [activeItem, setActiveItem] = useState<string | null>(null);
 
-  // Usuário selecionado (Maria por padrão)
-  const [selectedUser, setSelectedUser] = useState(users[1]);
-
-  // Alterna visibilidade do dropdown
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
-  // Seleciona o usuário
   const selectUser = (user: typeof users[0]) => {
     setSelectedUser(user);
     setShowDropdown(false);
+    setActiveItem(`user-${user.name}`);
   };
 
-  // Fecha QR Code
   const handleCloseQrCode = () => setShowQrCode(false);
 
-  // Funções de ações dos ícones
-  const handleSearchClick = () => onActionSelect?.('qrcode');
-  const handleCalendarClick = () => onActionSelect?.('calendar');
-  const handleClockClick = () => onActionSelect?.('clock');
-  const handleCloudClick = () => onActionSelect?.('cloud');
+  const handleActionClick = (action: string) => {
+    setActiveItem(action);
+    onActionSelect?.(action);
+  };
 
-  // Redireciona com base no tipo do usuário
   const goToFeed = () => {
     if (!selectedUser?.type) return;
     router.push(`/feed/${selectedUser.type}`);
+    setActiveItem(`user-${selectedUser.name}`); // Avatar também fica ativo
   };
 
   return (
     <div className="w-full bg-[#B6D2B7] gap-2 pb-3 mt-2">
       {showQrCode ? (
-        <QrCode
-          qrValue="https://seusite.com/usuario/123"
-          onScanClick={handleCloseQrCode}
-        />
+        <QrCode qrValue="https://seusite.com/usuario/123" onScanClick={handleCloseQrCode} />
       ) : (
         <div className="flex h-28 w-full gap-1 pr-2">
-          {/* 👉 Caixa do Avatar */}
+          {/* Avatar */}
           <div
             onClick={goToFeed}
-            className="h-full w-24 rounded overflow-hidden flex-shrink-0 border-2 border-black cursor-pointer"
+            className={`h-full w-24 rounded overflow-hidden flex-shrink-0 border-2 border-black cursor-pointer transition ${
+              activeItem === `user-${selectedUser.name}` ? 'ring-2 ring-orange-500' : ''
+            }`}
             title={`Ir para o feed de ${selectedUser.type}`}
           >
-            <img
-              src={selectedUser.avatar}
-              alt={selectedUser.name}
-              className="w-full h-full object-cover"
-            />
+            <img src={selectedUser.avatar} alt={selectedUser.name} className="w-full h-full object-cover" />
           </div>
 
-          {/* 👉 Caixa de conteúdo ao lado */}
+          {/* Conteúdo ao lado */}
           <div className="flex-1 flex flex-col">
-            {/* Dropdown de seleção de perfil */}
+            {/* Dropdown de seleção */}
             <div className="w-full">
               <div className="relative w-full ml-2">
                 <button
                   onClick={toggleDropdown}
                   className="w-full text-left px-1 py-1 bg-white rounded flex items-center justify-between border-2 border-black"
                 >
-                  <span className="ml-2 text-md font-medium">
-                    {selectedUser.name}
-                  </span>
+                  <span className="ml-2 text-md font-medium">{selectedUser.name}</span>
                   <FiChevronDown />
                 </button>
 
@@ -108,7 +81,9 @@ export const UserSelect: React.FC<{ onActionSelect?: (action: string) => void }>
                       <div
                         key={index}
                         onClick={() => selectUser(user)}
-                        className="px-3 py-2 hover:bg-green-100 cursor-pointer text-sm"
+                        className={`px-3 py-2 cursor-pointer text-sm transition ${
+                          activeItem === `user-${user.name}` ? 'bg-orange-500 text-white' : 'hover:bg-green-100'
+                        }`}
                       >
                         {user.name}
                       </div>
@@ -118,11 +93,11 @@ export const UserSelect: React.FC<{ onActionSelect?: (action: string) => void }>
               </div>
             </div>
 
-            {/* Ícones de ação (mesmos de antes) */}
+            {/* Ícones de ação */}
             <div className="mt-2 flex justify-around text-gray-700 text-xl gap-1 pb-3">
               <Button
-                onClick={handleSearchClick}
-                className="hover:text-green-600 transition"
+                onClick={() => handleActionClick('qrcode')}
+                className={`transition ${activeItem === 'qrcode' ? 'text-orange-500' : 'hover:text-green-600'}`}
                 title="Buscar"
                 variant="icon"
               >
@@ -130,8 +105,8 @@ export const UserSelect: React.FC<{ onActionSelect?: (action: string) => void }>
               </Button>
 
               <Button
-                onClick={handleCalendarClick}
-                className="hover:text-green-600 transition"
+                onClick={() => handleActionClick('calendar')}
+                className={`transition ${activeItem === 'calendar' ? 'text-orange-500' : 'hover:text-green-600'}`}
                 title="Calendário"
                 variant="icon"
               >
@@ -139,8 +114,8 @@ export const UserSelect: React.FC<{ onActionSelect?: (action: string) => void }>
               </Button>
 
               <Button
-                onClick={handleClockClick}
-                className="hover:text-green-600 transition"
+                onClick={() => handleActionClick('clock')}
+                className={`transition ${activeItem === 'clock' ? 'text-orange-500' : 'hover:text-green-600'}`}
                 title="Relógio"
                 variant="icon"
               >
@@ -148,8 +123,8 @@ export const UserSelect: React.FC<{ onActionSelect?: (action: string) => void }>
               </Button>
 
               <Button
-                onClick={handleCloudClick}
-                className="hover:text-green-600 transition"
+                onClick={() => handleActionClick('cloud')}
+                className={`transition ${activeItem === 'cloud' ? 'text-orange-500' : 'hover:text-green-600'}`}
                 title="Nuvem"
                 variant="icon"
               >

@@ -5,13 +5,13 @@ import {
   FiLayers,
   FiUsers,
   FiSearch,
-  FiMessageSquare,
   FiCamera,
   FiUserPlus,
 } from 'react-icons/fi';
-import { Badge, MessageIconWithBadge } from '@/components/common/Badge';
+import { MessageIconWithBadge } from '@/components/common/Badge';
 import { useRouter } from 'next/navigation';
 import { CreateGroupModal } from './modals/CreateGroupModal';
+
 type Button = {
   label: string;
   icon: React.ReactNode;
@@ -21,15 +21,13 @@ type Button = {
 
 export const ActionGrid: React.FC = () => {
   const navigate = useRouter();
-  const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);  // Estado de controle
+  const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
 
   const handleEditarFeed = () => {
-    console.log('Editar Feed clicado');
     navigate.push('/editarFeed');
   };
 
   const handleEditarPerfil = () => {
-    console.log('Editar Perfil clicado');
     navigate.push('/editarPerfil');
   };
 
@@ -37,30 +35,31 @@ export const ActionGrid: React.FC = () => {
     navigate.push('/galeria');
   };
 
-  const handleCriarGrupo = () => {
-    console.log('Criar Grupo clicado');
-    setIsCreateGroupModalOpen(true);  
-  };
+  const handleCriarGrupo = () => setIsCreateGroupModalOpen(true);
+  const handleProcurar = () => navigate.push('/buscador');
+  const handleMensagem = () => navigate.push('/mensageiro');
+  const handleCloseModal = () => setIsCreateGroupModalOpen(false);
 
-  const handleProcurar = () => {
-    navigate.push('/buscador');
-  };
-
-  const handleMensagem = () => {
-    navigate.push('/mensageiro');
-  };
-
-  const handleCloseModal = () => {
-    setIsCreateGroupModalOpen(false);  
+  // Função para formatar labels
+  const formatLabel = (label: string) => {
+    if (label.startsWith('Editar ') || label.startsWith('Criar ')) {
+      const parts = label.split(' ');
+      if (parts.length >= 2) {
+        const firstWord = parts[0][0].toUpperCase() + parts[0].slice(1).toLowerCase();
+        const otherWords = parts.slice(1).map(word => word.toUpperCase()).join(' ');
+        return `${firstWord} ${otherWords}`;
+      }
+    }
+    return label.toUpperCase();
   };
 
   const actionButtons: Button[] = [
-    { label: 'Editar FEED', icon: <FiLayers />, color: 'bg-[#8F7E76] hover:bg-[#dfcdb5]', onClick: handleEditarFeed },
-    { label: 'Editar PERFIL', icon: <FiUserPlus />, color: 'bg-[#BEB780] hover:bg-[#dfcdb5]', onClick: handleEditarPerfil },
-    { label: 'Editar ÁLBUM', icon: <FiCamera />, color: 'bg-[#DFCDB5] hover:bg-[#dfcdb5]', onClick: handleEditarAlbum },
-    { label: 'Criar GRUPO', icon: <FiUsers />, color: 'bg-[#A1A864] hover:bg-[#dfcdb5]', onClick: handleCriarGrupo },
-    { label: 'BUSCADOR', icon: <FiSearch />, color: 'bg-[#BCC5A8] hover:bg-[#dfcdb5]', onClick: handleProcurar },
-    { label: 'MENSAGEIRO', icon: <MessageIconWithBadge count={9} />, color: 'bg-[#BACE77] hover:bg-[#dfcdb5]', onClick: handleMensagem },
+    { label: formatLabel('Editar FEED'), icon: <FiLayers />, color: 'bg-[#8F7E76] hover:bg-[#dfcdb5]', onClick: handleEditarFeed },
+    { label: formatLabel('Editar PERFIL'), icon: <FiUserPlus />, color: 'bg-[#BEB780] hover:bg-[#dfcdb5]', onClick: handleEditarPerfil },
+    { label: formatLabel('Editar ÁLBUM'), icon: <FiCamera />, color: 'bg-[#DFCDB5] hover:bg-[#dfcdb5]', onClick: handleEditarAlbum },
+    { label: formatLabel('Criar GRUPO'), icon: <FiUsers />, color: 'bg-[#A1A864] hover:bg-[#dfcdb5]', onClick: handleCriarGrupo },
+    { label: formatLabel('BUSCADOR'), icon: <FiSearch />, color: 'bg-[#BCC5A8] hover:bg-[#dfcdb5]', onClick: handleProcurar },
+    { label: formatLabel('MENSAGEIRO'), icon: <MessageIconWithBadge count={9} />, color: 'bg-[#BACE77] hover:bg-[#dfcdb5]', onClick: handleMensagem },
   ];
 
   return (
@@ -74,12 +73,11 @@ export const ActionGrid: React.FC = () => {
             type="button"
           >
             <div className="text-2xl mb-2 text-gray-700">{btn.icon}</div>
-            <span className="text-md font-medium text-gray-800">{btn.label}</span>
+            <span className="text-md font-medium text-gray-800 normal-case">{btn.label}</span>
           </button>
         ))}
       </div>
 
-      {/* Modal Criar Grupo */}
       <CreateGroupModal isOpen={isCreateGroupModalOpen} onClose={handleCloseModal} />
     </>
   );

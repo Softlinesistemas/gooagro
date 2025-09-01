@@ -62,7 +62,7 @@ export const SearchFilter: React.FC = () => {
         <FiSearch className="text-balck shadow-md mr-2" />
         <input
           type="text"
-          placeholder="Buscar AMIGOS, Grupos, Fornecedores ou Empresas."
+          placeholder="Pesquise pelo Nome ou Usuário GooAgro"
           className="w-full text-sm font-medium  bg-white  placeholder-gray-500 outline-none"
         />
       </div>
