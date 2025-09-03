@@ -18,6 +18,7 @@ interface Empresa {
   id: string
   nome: string
   descricao: string
+  descricaoCurta: string
   logo: string
 }
 
@@ -41,18 +42,27 @@ export default function Empresas() {
       // setEmpresas(data)
 
       // MOCK - REMOVER depois da API pronta:
-      const dataMock: Empresa[] = [
+       const dataMock: Empresa[] = [
         {
           id: '1',
-          nome: 'AgroBrasil SA',
-          descricao: 'Líder em soluções agrícolas no Brasil',
-          logo: '/images/AgroBrasilSA.jpg',
+          nome: 'AgroTech Brasil LTDA',
+          descricao: 'Tecnologia para o campo',
+          descricaoCurta: 'Inovação agrícola',
+          logo: '/images/logola.jpg',
         },
         {
           id: '2',
           nome: 'TechFarms Ltda',
           descricao: 'Tecnologia e inovação para o campo',
+          descricaoCurta: 'Farmácias do Campo',
           logo: '/images/TechFarm.jpg',
+        },
+         {
+          id: '3',
+          nome: 'AgroBrasil SA',
+          descricao: 'Líder em soluções agrícolas no Brasil',
+          descricaoCurta: 'Inovação em Grãos',
+          logo: '/images/AgroBrasilSA.jpg',
         },
       ]
       setEmpresas(dataMock)
@@ -75,12 +85,14 @@ export default function Empresas() {
           id: '3',
           nome: 'Verde Forte',
           descricao: 'Produtos orgânicos e sustentáveis',
+          descricaoCurta: 'Sustentabilidade em primeiro lugar',
           logo: '/img/empresa-verdeforte.png',
         },
         {
           id: '4',
           nome: 'Campo Digital',
           descricao: 'Plataformas digitais para gestão agrícola',
+          descricaoCurta: 'Inovação tecnológica no campo',
           logo: '/img/empresa-campodigital.png',
         },
       ]
